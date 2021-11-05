@@ -31,7 +31,8 @@ Route::post('/verifcode', [SessionController::class , 'verifcode'])->name('sessi
 Route::get('/sms', [SessionController::class , 'sms'])->name('sms');
 
 Route::get('/resultat', function () {
-    return view('voting.resultat');
+    $candidats = \App\Models\CandidatPresidentielle::all();
+    return view('voting.resultat',compact('candidats'));
 });
 
 
