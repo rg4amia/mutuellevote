@@ -59,7 +59,8 @@ class SessionController extends Controller
                 return back();
             }
 
-            $user->codegene = Str::random(32);
+            //$user->codegene = Str::random(32);
+            $user->codegene = random_int(100000, 999999);
             $user->save();
             Mail::to($user->email)->send(new EmailGenerationCode($user));
             session()->flash('success','Code generer avec success');
