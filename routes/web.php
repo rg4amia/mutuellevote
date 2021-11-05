@@ -28,6 +28,8 @@ Route::post('/login', [SessionController::class , 'login'])->name('session.login
 Route::post('/generatecode', [SessionController::class , 'generatecode'])->name('session.generatecode');
 Route::get('/showverifcode', [SessionController::class , 'showverifcode'])->name('session.showverifcode');
 Route::post('/verifcode', [SessionController::class , 'verifcode'])->name('session.verifcode');
+Route::get('/sms', [SessionController::class , 'sms'])->name('sms');
+
 
 Route::group(['prefix'=>'admin','as'=>'admin.'], function () {
     Route::get('/',[AdministrateurController::class, 'index'])->name('index');
