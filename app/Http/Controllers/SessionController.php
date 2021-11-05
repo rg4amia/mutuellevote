@@ -61,7 +61,7 @@ class SessionController extends Controller
 
             $user->codegene = Str::random(32);
             $user->save();
-           // Mail::to($user->email)->send(new EmailGenerationCode($user));
+            Mail::to($user->email)->send(new EmailGenerationCode($user));
             session()->flash('success','Code generer avec success');
             return redirect()->route('session.showverifcode');
         }
