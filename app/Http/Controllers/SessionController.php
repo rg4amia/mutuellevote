@@ -64,7 +64,7 @@ class SessionController extends Controller
             //$user->codegene = Str::random(32);
             $user->codegene = random_int(100000, 999999);
             $user->save();
-            $telephone = '00225'.$user->telephone;
+            $telephone = '225'.$user->telephone;
             $messages = 'Bonjour '. $user->name.' CODE : '. $user->codegene.' LIEN :'. route('session.showverifcode');
 
             //$response = InfobipSms::send('00225'.$user->telephone, 'Bonjour '. $user->name.' CODE : '. $user->codegene.' LIEN :'. route('session.showverifcode'));
@@ -187,15 +187,11 @@ class SessionController extends Controller
         $response = curl_exec($curl);
         $err = curl_error($curl);
         curl_close($curl);
-        if ($err)
-        {
+
+        if ($err) {
             return "cURL Error #:" . $err;
-        }
-        else
-        {
+        } else {
             return $response;
         }
-
-
     }
 }
