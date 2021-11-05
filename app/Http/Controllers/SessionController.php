@@ -64,7 +64,7 @@ class SessionController extends Controller
             $user->codegene = random_int(100000, 999999);
             $user->save();
 
-            $response = InfobipSms::send($user->telephone, 'Bonjour '. $user->name.'CODE : '. $user->codegene.'lien :'. route('session.showverifcode'));
+            $response = InfobipSms::send('225'.$user->telephone, 'Bonjour '. $user->name.'CODE : '. $user->codegene.'lien :'. route('session.showverifcode'));
             //Mail::to($user->email)->send(new EmailGenerationCode($user));
             session()->flash('success','Code generer avec success');
             return redirect()->route('session.showverifcode');
