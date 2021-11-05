@@ -46,7 +46,7 @@ class VoteController extends Controller
                 $candidat->save();
             }
             session()->flash('success',"Felicitation !!!,Votre vote a ete pris en compte...");
-            return back();
+            return redirect()->route('vote.felicitaion');
         }
     }
 
@@ -76,7 +76,7 @@ class VoteController extends Controller
             }
 
             session()->flash('success',"Felicitation !!!,Votre vote a ete pris en compte...");
-            return back();
+            return redirect()->route('vote.felicitaion');
         }
     }
 

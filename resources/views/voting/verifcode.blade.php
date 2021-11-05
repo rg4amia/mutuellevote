@@ -36,7 +36,7 @@
 <!-- login page start-->
 <div class="container-fluid">
     <div class="row">
-        <div class="col-xl-5"><img class="bg-img-cover bg-center" src="{{ asset('assets_admin/images/login/3.jpg') }}" alt="looginpage"></div>
+        <div class="col-xl-5"><img class="bg-img-cover bg-center" src="{{ asset('assets/images/maaej.jpeg') }}" alt="looginpage"></div>
         <div class="col-xl-7 p-0">
             <div class="login-card">
                 <div>
@@ -48,7 +48,7 @@
                         <form  method="POST" class="theme-form" action="{{ route('session.verifcode') }}">
                             @csrf()
                             <h4>Verifier code ici</h4>
-                            <p>Eenseignez le code recu par mail ici</p>
+                            <p>Renseignez le code recu par mail ici</p>
                             @include('layouts.inc.flash')
                             @include('layouts.inc.message')
                             <div class="form-group">

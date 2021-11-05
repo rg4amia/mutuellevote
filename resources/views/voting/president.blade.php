@@ -28,8 +28,8 @@
                 @foreach($candidats as $candidat)
                 <div class="col-md-6 col-lg-6 col-xl-4 box-col-6">
                     <div class="card custom-card p-0">
-                        <div class="card-header"><img class="img-fluid" src="{{ asset('images/president'.$candidat->image) }}" alt=""></div>
-                        <div class="card-profile"><img class="rounded-circle" src="{{ asset('images/president'.$candidat->image) }}" alt=""></div>
+                        <div class="card-header"><img class="img-fluid" src="{{ asset('images/president/'.$candidat->image) }}" alt=""></div>
+                        <div class="card-profile"><img class="rounded-circle" src="{{ asset('images/president/'.$candidat->image) }}" alt=""></div>
                         <div class="text-center profile-details">
                             <h5>{{$candidat->nom_prenom}}</h5>
                             <h6>Candidat</h6>

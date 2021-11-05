@@ -36,9 +36,9 @@
                             <a type="buttom" href="{{ route('vote.index') }}" class="btn btn-lg btn-info">
                                 VOTER POUR LA PRESIDENCE
                             </a>
-                            <a type="buttom" href="{{ route('vote.commisaire') }}" class="btn btn-lg btn-info">
+                           {{-- <a type="buttom" href="{{ route('vote.commisaire') }}" class="btn btn-lg btn-info">
                                 VOTER POUR LES COMMISSAIRES AU COMPTE
-                            </a>
+                            </a>--}}
                             {{--<div class="body-bottom">
                                 <h6>Felicitation !!!</h6><span class="font-roboto"> Votre vote a ete pris en compte... </span>
                             </div>--}}
