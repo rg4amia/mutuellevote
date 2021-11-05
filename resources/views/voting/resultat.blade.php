@@ -6,7 +6,7 @@
                 <div class="row">
                     <div class="col-6">
                         <h3>Vote provisoire</h3>
-                        <h3>Nombre Total: {{ $candidats->vote->count() }}</h3>
+                        <h3>Nombre Total: {{ \App\Models\UserCandidatPresidentielle::count() }}</h3>
                     </div>
                 </div>
             </div>
