@@ -41,8 +41,8 @@
                         </div>
                         <div class="card-footer row">
                             <div class="col-10 col-sm-4">
-                                <h6>Vote</h6>
-                                <h5 class="counter">{{ $candidat->vote }}</h5>
+                                {{--<h6>Vote</h6>
+                                <h5 class="counter">{{ $candidat->vote }}</h5>--}}
                             </div>
                         </div>
                     </div>
