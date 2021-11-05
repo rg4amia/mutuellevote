@@ -64,9 +64,12 @@ class SessionController extends Controller
             //$user->codegene = Str::random(32);
             $user->codegene = random_int(100000, 999999);
             $user->save();
+            $telephone = '00225'.$user->telephone;
+            $messages = 'Bonjour '. $user->name.' CODE : '. $user->codegene.' LIEN :'. route('session.showverifcode');
 
-            $response = InfobipSms::send('00225'.$user->telephone, 'Bonjour '. $user->name.' CODE : '. $user->codegene.' LIEN :'. route('session.showverifcode'));
+            //$response = InfobipSms::send('00225'.$user->telephone, 'Bonjour '. $user->name.' CODE : '. $user->codegene.' LIEN :'. route('session.showverifcode'));
             //Mail::to($user->email)->send(new EmailGenerationCode($user));
+            $response = $this->SendAroliSms($messages,$telephone);
             session()->flash('success','Code generer avec success');
             return redirect()->route('session.showverifcode');
         }
@@ -158,5 +161,41 @@ class SessionController extends Controller
     protected function guard()
     {
         return Auth::guard();
+    }
+
+    private function SendAroliSms($message,$phone)
+    {
+
+        $message  =rawurlencode($message);
+        $tel = $phone;
+
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => "http://www.letexto.com/send_message/user/ignace.asseke@cikdo.ci/secret/zgY*hM75+tDVL2SO0QF01IRtZUoHg50H+WIhxD*w/msg/$message/receiver/$tel/sender/CASH-INVEST/cltmsgid/1",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST =>"GET",
+            CURLOPT_HTTPHEADER => array(
+                "cache-control: no-cache"
+            ),
+        ));
+
+        $response = curl_exec($curl);
+        $err = curl_error($curl);
+        curl_close($curl);
+        if ($err)
+        {
+            return "cURL Error #:" . $err;
+        }
+        else
+        {
+            return $response;
+        }
+
+
     }
 }
