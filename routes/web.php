@@ -30,6 +30,11 @@ Route::get('/showverifcode', [SessionController::class , 'showverifcode'])->name
 Route::post('/verifcode', [SessionController::class , 'verifcode'])->name('session.verifcode');
 Route::get('/sms', [SessionController::class , 'sms'])->name('sms');
 
+Route::get('/resultat', function () {
+    return view('voting.resultat');
+});
+
+
 
 Route::group(['prefix'=>'admin','as'=>'admin.'], function () {
     Route::get('/',[AdministrateurController::class, 'index'])->name('index');

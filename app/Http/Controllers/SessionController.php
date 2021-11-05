@@ -90,7 +90,7 @@ class SessionController extends Controller
         $response = curl_exec($curl);
         curl_close($curl);
         $json = json_decode($response, true);
-        echo $json['id'];
+     //   echo $json['id'];
         $this->sendMessage($json['id']);
     }
 
@@ -112,7 +112,7 @@ class SessionController extends Controller
         ));
         $response = curl_exec($curl);
         curl_close($curl);
-        echo $response;
+      //  echo $response;
     }
 
     public function obtenircode()
