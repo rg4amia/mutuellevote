@@ -109,7 +109,7 @@
 <!-- Plugins JS Ends-->
 <!-- Theme js-->
 <script src="{{ asset('assets_admin/js/script.js') }}"></script>
-
+@yield('js')
 <!-- login js-->
 <!-- Plugin used-->
 </body>

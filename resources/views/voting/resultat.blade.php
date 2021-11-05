@@ -6,6 +6,7 @@
                 <div class="row">
                     <div class="col-6">
                         <h3>Vote provisoire</h3>
+                        <h3>Nombre Total: {{ $candidats->count() }}</h3>
                     </div>
                 </div>
             </div>
@@ -22,8 +23,8 @@
                         <div class="text-center profile-details">
                             <h5>{{$candidat->nom_prenom}}</h5>
                             <h6>Candidat</h6>
-                        <br>
-                        </div>
+                        <br>`
+                        </div>`
                         <div class="card-footer row">
                             <div class="col-10 col-sm-4">
                                 <h6>Vote</h6>
@@ -37,3 +38,20 @@
         </div></div>
         <!-- Container-fluid Ends-->
     @stop
+@section('js')
+    <script>
+        var time = new Date().getTime();
+        $(document.body).bind("mousemove keypress", function(e) {
+            time = new Date().getTime();
+        });
+
+        function refresh() {
+            if(new Date().getTime() - time >= 60000)
+                window.location.reload(true);
+            else
+                setTimeout(refresh, 10000);
+        }
+
+        setTimeout(refresh, 10000);
+    </script>
+@endsection
