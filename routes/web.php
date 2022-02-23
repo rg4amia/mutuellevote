@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdministrateurController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\SessionController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\VoteController;
 use Illuminate\Support\Facades\Route;
 
@@ -41,6 +42,10 @@ Route::group(['prefix'=>'admin','as'=>'admin.'], function () {
     Route::get('/',[AdministrateurController::class, 'index'])->name('index');
     Route::get('/import',[AdministrateurController::class, 'import'])->name('import');
     Route::post('/import_in',[AdministrateurController::class, 'import_in'])->name('import_in');
+    Route::get('/user',[UserController::class, 'index'])->name('user.index');
+    Route::get('/user/{id}/edit',[UserController::class, 'edit'])->name('user.edit');
+    Route::post('/user/update/{id}',[UserController::class, 'update'])->name('user.update');
+    Route::get('/candidat/commissaire',[AdministrateurController::class,'resultatcommissaire'])->name('resultatcommissaire');
 });
 
 Route::group(['prefix'=>'vote','as'=>'vote.'], function () {
@@ -48,8 +53,11 @@ Route::group(['prefix'=>'vote','as'=>'vote.'], function () {
     Route::get('/commisaire',[VoteController::class, 'commisaire'])->name('commisaire');
     Route::get('/voter/{id}',[VoteController::class, 'voter'])->name('voter');
     Route::get('/voter/commissaire/{id}',[VoteController::class, 'voterCommissaire'])->name('votecommissaire');
+    Route::get('/voter/commissaire-adjoint/{id}',[VoteController::class, 'voterCommissaireAdjoint'])->name('votecommissaireadjoint');
     Route::get('/felicitaion',[VoteController::class, 'felicitaion'])->name('felicitaion');
     Route::get('/votrechoix',[VoteController::class, 'votrechoix'])->name('votrechoix');
+    Route::post('/fullcommissaire',[VoteController::class, 'fullCommissaire'])->name('fullcommissaire');
+
 });
 
 

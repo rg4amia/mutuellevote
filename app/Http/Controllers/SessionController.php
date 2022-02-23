@@ -71,6 +71,8 @@ class SessionController extends Controller
         curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 0);
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
 
+        /*9be47ae3f22af6ec729fc1e04967a1*/
+
         curl_setopt_array($curl, array(
             CURLOPT_URL => 'https://api.letexto.com/v1/campaigns',
             CURLOPT_RETURNTRANSFER => true,
@@ -82,7 +84,7 @@ class SessionController extends Controller
             CURLOPT_CUSTOMREQUEST => 'POST',
             CURLOPT_POSTFIELDS => json_encode($datas),
             CURLOPT_HTTPHEADER => array(
-                'Authorization: Bearer 9be47ae3f22af6ec729fc1e04967a1',
+                'Authorization: Bearer b8c1adf4aa14d0cdfc48e875dad637',
                 'Content-Type: application/json'
             ),
         ));
@@ -90,6 +92,7 @@ class SessionController extends Controller
         $response = curl_exec($curl);
         curl_close($curl);
         $json = json_decode($response, true);
+        //dd($json);
      //   echo $json['id'];
         $this->sendMessage($json['id']);
     }
@@ -107,20 +110,24 @@ class SessionController extends Controller
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => 'POST',
             CURLOPT_HTTPHEADER => array(
-                'Authorization: Bearer 9be47ae3f22af6ec729fc1e04967a1'
+                'Authorization: Bearer b8c1adf4aa14d0cdfc48e875dad637'
             ),
         ));
         $response = curl_exec($curl);
         curl_close($curl);
+
+        //dd($response);
       //  echo $response;
     }
 
     public function obtenircode()
     {
-        return view('voting.index');
+        //return view('voting.index');
+        return view('customs.vote.index');
     }
 
     public function generatecode(){
+
         $data = \request()->all();
 
         $messages = [
@@ -145,32 +152,49 @@ class SessionController extends Controller
             return back();
         } else {
 
-            $user1 =  User::where(['email' => request(['email']), 'telephone' => request(['telephone'])])->where('codegene',null)
-                ->first();
-            if (!$user1) {
-                session()->flash('warning','Code deja disponible');
-                return redirect()->route('vote.felicitaion');
-                //return back();
+            $user1 =  User::where('email',request(['email']))
+                ->where('telephone',request(['telephone']))->first();
+                /*->orWhere('status', 1)
+                ->orWhere('status_com', 0)
+                where('codegene',null)
+                */
+
+            //dd($user1);
+
+            if ($user1->codegene != null || $user1->status == 1 ||  $user1->status_com == 1) {
+                session()->flash('warning','Code deja disponible,deja vote');
+                return back();
             }
 
-            //$user->codegene = Str::random(32);
-            $user->codegene = random_int(100000, 999999);
+           /* if ($user1->status == 1 ||  $user1->status_com == 1) {
+                session()->flash('warning','Code deja disponible et ');
+                return back();
+            }*/
+
+            $code_generate = random_int(1000, 9999);
+
+            session()->put('code_generate',$code_generate);
+
+            $user->codegene = $code_generate;
             $user->save();
+
+            session()->put('user_data',$user);
+
             $telephone = '225'.$user->telephone;
             $messages = 'Bonjour '. $user->name.' CODE : '. $user->codegene.' LIEN :'. route('session.showverifcode');
 
-            //$response = InfobipSms::send('00225'.$user->telephone, 'Bonjour '. $user->name.' CODE : '. $user->codegene.' LIEN :'. route('session.showverifcode'));
-            //Mail::to($user->email)->send(new EmailGenerationCode($user));
-            //$response = $this->SendAroliSms($messages,$telephone);
             $response = $this->leSMS($telephone,$messages);
-            session()->flash('success','Code generer avec success');
+
+            session()->flash('success','Code généré avec succès.');
             return redirect()->route('session.showverifcode');
         }
 
     }
 
     public function showverifcode(){
-        return view('voting.verifcode');
+       $user = session()->get('user_data');
+       return $user ? view('customs.vote.verifcode') : view('customs.vote.index');
+       // return view('voting.verifcode');
     }
 
     public function verifcode(Request $request){
