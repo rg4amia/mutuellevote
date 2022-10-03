@@ -5,43 +5,67 @@
             Recherche
         </h2>
         <div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
-            <form method="POST" class="theme-form" action="http://127.0.0.1:8000/admin/user/update/2">
+            <form method="GET" class="theme-form" action="{{ route('admin.user.index') }}">
+                @csrf()
                 <input type="hidden" name="_token" value="9jwyWeFYLfVH4TJuCzmF8c3kKq8Am0C5MzEv9zQB">
                 <div class="-mx-3 md:flex mb-3">
                     <div class="md:w-1/2 px-3 mb-3 md:mb-0 mt-6">
                         <label class="block uppercase tracking-wide text-zinc-500 text-xs font-bold mb-2" for="nom">
                             Nom &amp; Prenom:
                         </label>
-                        <input name="nomprenom" @keyup="nomUpperCase = $event.target.value.toUpperCase()" :value="nomUpperCase" class="appearance-none block w-full bg-grey-lighter text-grey-darker border
+                        <input value="{{ old('prenom') }}" name="nomprenom" class="appearance-none block w-full bg-grey-lighter text-grey-darker border
                                           rounded py-3 px-4 mb-2" id="nom" type="text" placeholder="Jane">
 
                         <label class="block uppercase tracking-wide text-zinc-500 text-xs font-bold mb-2" for="prenom">
                             Matricule:
                         </label>
-
-                        <input name="matricule" value="" @keyup="prenomUpperCase = $event.target.value.toUpperCase()" :value="prenomUpperCase" class="appearance-none block w-full bg-grey-lighter text-grey-darker border
+                        <input value="{{ old('matricule') }}" name="matricule" class="appearance-none block w-full bg-grey-lighter text-grey-darker border
                                          rounded py-3 px-4 mb-1" id="prenom" type="text" placeholder="Doe">
-
                     </div>
 
                     <div class="md:w-1/2 px-3 mb-3 md:mb-0 mt-6">
                         <label class="block uppercase tracking-wide text-zinc-500 text-xs font-bold mb-2" for="nom">
                             Email:
                         </label>
-
-                        <input name="email" value="" @keyup="nomUpperCase = $event.target.value.toUpperCase()" :value="nomUpperCase" class="appearance-none block w-full bg-grey-lighter text-grey-darker border
+                        <input value="{{ old('email') }}" name="email" class="appearance-none block w-full bg-grey-lighter text-grey-darker border
                                           rounded py-3 px-4 mb-2" id="nom" type="text" placeholder="Jane">
-
                         <label class="block uppercase tracking-wide text-zinc-500 text-xs font-bold mb-2" for="prenom">
                             Telephone:
                         </label>
-
-                        <input name="telephone" value="" @keyup="prenomUpperCase = $event.target.value.toUpperCase()" :value="prenomUpperCase" class="appearance-none block w-full bg-grey-lighter text-grey-darker border
-                                         rounded py-3 px-4 mb-1" id="prenom" type="text" placeholder="Doe">
-
+                        <input value="{{ old('telephone') }}" name="telephone" class="appearance-none block w-full bg-grey-lighter text-grey-darker border
+                                        rounded py-3 px-4 mb-1" id="prenom" type="text" placeholder="Doe">
                     </div>
                 </div>
-
+                <div class="-mx-3 md:flex mb-3">
+                    <div class="md:w-1/2 px-3 md:mb-0">
+                        <label class="block uppercase tracking-wide text-zinc-500 text-xs font-bold mb-2" for="paysnaissance">
+                            Filtre Email:
+                        </label>
+                        <select name="filtreemail" class="appearance-none block w-full bg-white
+                            text-grey-darker border @error('filtreemail') border-red-600 @enderror rounded py-3 px-4 mb-1">
+                            <option value="">{{ __("-- Selectionner Filtre --") }}</option>
+                            <option value="0">{{ __("PAS DE MAIL") }}</option>
+                            <option value="1">{{ __("MAIL COMPLET") }}</option>
+                        </select>
+                        @error('filtreemail')
+                        <p class="text-red-600 text-xs italic">{{ $message }}</p>
+                        @enderror
+                    </div>
+                    <div class="md:w-1/2 px-3 md:mb-0">
+                        <label class="block uppercase tracking-wide text-zinc-500 text-xs font-bold mb-2" for="paysnaissance">
+                            Filtre Telephone:
+                        </label>
+                        <select name="filtretelephone" class="appearance-none block w-full bg-white
+                            text-grey-darker border @error('filtretelephone') border-red-600 @enderror rounded py-3 px-4 mb-1">
+                            <option value="">{{ __("-- Selectionner Filtre --") }}</option>
+                            <option value="0">{{ __("NUMERO INCOMPLET") }}</option>
+                            <option value="1">{{ __("NUMERO COMPLET") }}</option>
+                        </select>
+                        @error('filtretelephone')
+                        <p class="text-red-600 text-xs italic">{{ $message }}</p>
+                        @enderror
+                    </div>
+                </div>
                 <!-- You should use a button here, as the anchor is only used for the example  -->
                 <button type="submit" class="block w-full px-4 py-2 mt-4 text-sm font-medium leading-5
                             text-center text-white transition-colors duration-150 bg-cyan-600 border
@@ -63,6 +87,7 @@
                         <th class="px-4 py-3">Email</th>
                         <th class="px-4 py-3">Telephone</th>
                         <th class="px-4 py-3">Code Generer</th>
+                        <th class="px-4 py-3">Status Vote</th>
                         <th class="px-4 py-3"></th>
                     </tr>
                     </thead>
@@ -122,6 +147,18 @@
                             @endif
 
                         </td>
+                            <td class="px-4 py-3 text-sm">
+                                @if($user->status != 1 ||$user->status != 1  )
+                                    <span class="px-2 py-1 font-semibold leading-tight text-orange-700 bg-orange-100 rounded-full dark:text-white dark:bg-orange-600">
+                                      {{ __('Pas encore vote') }}
+                                </span>
+                                @else
+                                    <span class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
+                                  {{ __('À vote') }}
+                                </span>
+                                @endif
+
+                            </td>
                         <td>
                             <a id="dropdownButton" href="{{ route('admin.user.edit',$user->id) }}"
                                     class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">

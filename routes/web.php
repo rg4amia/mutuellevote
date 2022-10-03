@@ -23,6 +23,7 @@ Route::get('/', function () {
 });
 
 Auth::routes();
+
 Route::get('/home', [HomeController::class,'index'])->name('home');
 Route::get('/', [SessionController::class , 'obtenircode'])->name('obtenircode');
 Route::post('/login', [SessionController::class , 'login'])->name('session.login');
@@ -35,8 +36,6 @@ Route::get('/resultat', function () {
     $candidats = \App\Models\CandidatPresidentielle::all();
     return view('voting.resultat',compact('candidats'));
 });
-
-
 
 Route::group(['prefix'=>'admin','as'=>'admin.'], function () {
     Route::get('/',[AdministrateurController::class, 'index'])->name('index');
@@ -57,7 +56,6 @@ Route::group(['prefix'=>'vote','as'=>'vote.'], function () {
     Route::get('/felicitaion',[VoteController::class, 'felicitaion'])->name('felicitaion');
     Route::get('/votrechoix',[VoteController::class, 'votrechoix'])->name('votrechoix');
     Route::post('/fullcommissaire',[VoteController::class, 'fullCommissaire'])->name('fullcommissaire');
-
 });
 
 

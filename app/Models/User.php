@@ -28,6 +28,7 @@ class User extends Authenticatable
         'telephone',
         'email',
         'code_agence',
+        'codegene',
         'password',
     ];
 

@@ -128,6 +128,14 @@ class VoteController extends Controller
                         $candidat->save();
                     }
 
+                } else{
+                    $user->status_com = true;
+                    $votecondidat = new UserCandidatComissaireCompte();
+                    $votecondidat->userId = $user->id;
+                    $votecondidat->email = $user->email;
+                    $votecondidat->telephone = $user->telephone;
+                    $votecondidat->candidatcomissaireId = 0;
+                    $votecondidat->save();
                 }
 
                 if ($request->vote_commissaire_adjoint) {
@@ -147,6 +155,14 @@ class VoteController extends Controller
                         $candidat->save();
                     }
 
+                }else {
+                    $user->status = true;
+                    $votecondidat_adj = new UserCandidatPresidentielle();
+                    $votecondidat_adj->userId = $user->id;
+                    $votecondidat_adj->email = $user->email;
+                    $votecondidat_adj->telephone = $user->telephone;
+                    $votecondidat_adj->candidatpresidentiellesId = 0;
+                    $votecondidat_adj->save();
                 }
                 // mise a jour des status du votant
                 $user->save();
@@ -157,9 +173,7 @@ class VoteController extends Controller
             session()->flash('warning',"Vous devez faire au moins un choix !!!");
             return redirect()->route('vote.commisaire');
         }
-
     }
-
 
     public function voterCommissaire ($id) {
 

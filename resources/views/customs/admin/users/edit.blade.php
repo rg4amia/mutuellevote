@@ -67,6 +67,21 @@
                         <p class="text-red-600 text-xs italic">{{ $message }}</p>
                         @enderror
                     </div>
+                    <div class="md:w-1/2 px-3 mb-3 md:mb-0 mt-6">
+                        <label class="block uppercase tracking-wide text-zinc-500 text-xs font-bold mb-2" for="nom">
+                            CODE:
+                        </label>
+                        {{-- <div wire:ignore> --}}
+                        <input name="codegene" value="{{ $user->codegene }}" @keyup="nomUpperCase = $event.target.value.toUpperCase()"
+                               :value="nomUpperCase"
+                               class="appearance-none block w-full bg-grey-lighter text-grey-darker border
+                                        @error('codegene') border-red-600 @enderror  rounded py-3 px-4 mb-2"
+                               id="nom" type="text" placeholder="Jane">
+                        {{-- </div> --}}
+                        @error('codegene')
+                        <p class="text-red-600 text-xs italic">{{ $message }}</p>
+                        @enderror
+                    </div>
                 </div>
 
                 <!-- You should use a button here, as the anchor is only used for the example  -->

@@ -5,7 +5,7 @@
             <form action="{{ route('vote.fullcommissaire') }}" method="POST">
                 @csrf()
                 <h2 class="my-6 text-2xl text-center font-semibold text-green-700 dark:text-green-200 bg-green-100">
-                    LES CANDIDATS AU COMMISSARIAT AU COMPTE
+                    LES CANDIDATS AU COMMISSARIAT AUX COMPTES
                 </h2>
                 <div class="flex flex-col md:px-40 overflow-y-auto md:flex-row">
                     @foreach($commissaires as $commissaire)
@@ -25,7 +25,9 @@
                                                    dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800">
                                         </div>
                                         <div class="ml-3 text-sm">
-                                            <label for="remember" class="uppercase font-medium text-gray-900 dark:text-gray-300">Cochez ici pour me voter</label>
+                                            <label for="remember" class="uppercase text-cyan-500 font-medium dark:text-gray-300">
+                                                Cochez ici pour que le candidat Ouattara Ouolo Souleymane soit élu Commissaire aux Comptes.
+                                            </label>
                                         </div>
                                     </div>
                                 </div>
@@ -35,7 +37,7 @@
                 </div>
 
                 <h2 class="my-6 text-2xl text-center font-semibold text-green-700 dark:text-green-200 bg-green-100">
-                    LES CANDIDATS AU COMMISSARIAT-ADJOINT AU COMPTE
+                    LES CANDIDATS AU COMMISSARIAT-ADJOINT AUX COMPTES
                 </h2>
                 <div class="flex flex-col md:px-40 overflow-y-auto md:flex-row">
                     @foreach($candidats as $candidat)
@@ -56,7 +58,9 @@
                                                    dark:focus:ring-blue-600 dark:ring-offset-gray-800">
                                         </div>
                                         <div class="ml-3 text-sm">
-                                            <label for="remember" class="uppercase font-medium text-gray-900 dark:text-gray-300">Cochez ici pour me voter</label>
+                                            <label for="remember" class="uppercase font-medium text-cyan-500 dark:text-gray-300">
+                                                Cochez ici pour que le candidat Bamba Inza soit élu commissaire aux Comptes Adjoint.
+                                            </label>
                                         </div>
                                     </div>
                                 </div>

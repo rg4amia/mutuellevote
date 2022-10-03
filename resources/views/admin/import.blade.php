@@ -30,7 +30,7 @@
                             @csrf
                             <input type="file" name="file" class="form-control">
                             <br>
-                            <button class="btn btn-success">Import User</button>
+                            <button class="bg-blue-100">Import User</button>
                         </form>
                     </div>
                 </div>

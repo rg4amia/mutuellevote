@@ -25,7 +25,7 @@ class SessionController extends Controller
 
     public function sms(){
        // $telephone = '2250759595939';
-        $telephone = '2250759595939';
+        $telephone = '2250747500630';
         $messages = 'Hello world';
 
         //$response = InfobipSms::send('00225'.$user->telephone, 'Bonjour '. $user->name.' CODE : '. $user->codegene.' LIEN :'. route('session.showverifcode'));
@@ -36,7 +36,7 @@ class SessionController extends Controller
         $response = $this->leSMS($telephone,$messages);
         //$response = InfobipSms::send($telephone, 'Bonjour DIALLO CODE : RGU8899 LIEN :'. route('session.showverifcode'));
 
-        dd($response);
+        //dd($response);
     }
 
 
@@ -193,7 +193,8 @@ class SessionController extends Controller
 
     public function showverifcode(){
        $user = session()->get('user_data');
-       return $user ? view('customs.vote.verifcode') : view('customs.vote.index');
+       //return $user ? view('customs.vote.verifcode') : view('customs.vote.index');
+        return view('customs.vote.verifcode');
        // return view('voting.verifcode');
     }
 
@@ -216,16 +217,17 @@ class SessionController extends Controller
 
         $user = User::where('codegene', request(['codegene']))->first();
 
-        if(!$user){
+
+        if(!$user || $user->status == 1 ||  $user->status_com == 1){
             session()->flash('warning','le code ne correspond a aucun utilisateur');
             return back();
         } else {
             session()->put('code',$user->codegene);
+            session()->put('user_data',$user);
             //return redirect()->route('vote.index');
             return redirect()->route('vote.votrechoix');
         }
     }
-
 
     public function login()
     {

@@ -2,7 +2,7 @@
 
 namespace App\Imports;
 
-use App\Models\User;
+use App\Models\SpecialiteDiplome;
 use Maatwebsite\Excel\Concerns\ToModel;
 
 class UsersImport implements ToModel
@@ -14,8 +14,13 @@ class UsersImport implements ToModel
     */
     public function model(array $row)
     {
+        return new SpecialiteDiplome([
+            'libelle'       => $row[1],
+            'description'   => $row[1],
+            'state'         => 2,
+        ]);
 
-        return  new User([
+        /*return  new User([
             'matricule'     => $row[0],
             'nomprenom'     => $row[1],
             'name'          => $row[1],
@@ -26,6 +31,6 @@ class UsersImport implements ToModel
             'code_agence'   => Null,
             'password'      => \Hash::make('123456'),
             ]
-        );
+        );*/
     }
 }
