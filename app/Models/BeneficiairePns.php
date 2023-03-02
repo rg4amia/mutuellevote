@@ -21,5 +21,7 @@ class BeneficiairePns extends Model
         'secteuractivite',
         'sexe',
         'programme',
+        'intituleformation',
+        'numeropiece'
     ];
 }

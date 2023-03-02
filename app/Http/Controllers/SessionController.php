@@ -159,8 +159,6 @@ class SessionController extends Controller
                 where('codegene',null)
                 */
 
-            //dd($user1);
-
             if ($user1->codegene != null || $user1->status == 1 ||  $user1->status_com == 1) {
                 session()->flash('warning','Code deja disponible,deja vote');
                 return back();

@@ -14,7 +14,7 @@ class AddGuichetemploiToDigitParametrageCommuneTable extends Migration
     public function up()
     {
         Schema::table('digit_parametrage_commune', function (Blueprint $table) {
-            $table->unsignedBigInteger('guichetemploi_id')->nullable()->after('divisionregionaleaej_id');
+           // $table->unsignedBigInteger('guichetemploi_id')->nullable()->after('divisionregionaleaej_id');
         });
     }
 

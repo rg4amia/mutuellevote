@@ -9,12 +9,14 @@ use App\Imports\CommuneImport;
 use App\Imports\UsersImport;
 use App\Models\AgenceRegional;
 use App\Models\BeneficiairePns;
+use App\Models\BeneficiaireProgrammes;
 use App\Models\CandidatComissaireCompte;
 use App\Models\CandidatPresidentielle;
 use App\Models\Commune;
 use App\Models\Departement;
 use App\Models\GuichetEmploi;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -52,8 +54,87 @@ class AdministrateurController extends Controller
     }
 
     public function import_in(Request $request){
-        Excel::import(new BeneficiaireProjetFinancementImport,request()->file('file'));
+        //Excel::import(new BeneficiaireProjetFinancementImport,request()->file('file'));
         //Excel::import(new BeneficiairePnsImport,request()->file('file'));
+        ini_set("memory_limit", "-1");
+        set_time_limit(1000);
+        /*      0 => "AEJ"
+                1 => "ACTIVITES PROGRAMMATIQUES"
+                2 => "DOBET ALEX THURLOTTE"
+                3 => 36141
+                4 => "GÔH"
+                5 => "GAGNOA"
+                6 => "AGIR 1"
+                7 => 2016 */
+        $data = Excel::toArray(new BeneficiairePnsImport,request()->file('file'));
+
+        //[0]structure, [1]axe, [2]nom & prenom, [3]date de naissance, [4]region, [5]sous-prefecture/commune, [6]programme,[7]annee
+       // dd($data[0]);
+
+       /*  0 => array:7 [▼
+                0 => 1
+                1 => "ABENGOUROU"
+                2 => "ADOPO"
+                3 => "AMAFE RODRIGUE"
+                4 => "M"
+                5 => "VENTE DE TELEPHONES PORTABLES ET ACCESSOIRES"
+                6 => 700000
+            ]
+        */
+
+        $count = 0;
+        foreach ($data[0] as $item) {
+            //$nom = $item[0].' '.$item[1];
+
+             $nom = $item[5];
+            $beneficiairepns = BeneficiairePns::where('nomprenoms','like',"%$nom%")->first();
+            BeneficiaireProgrammes::create(
+                [
+                    'structure'             => 'AEJ',
+                    'axe'                   => $item[1],
+                    'nomprenoms'            => $item[2],
+                    'datenaissance'         => @Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject((int)$item[3] ?? ''))->format('Y-m-d'),
+                    'region'                => $item[4],
+                    'sousprefect_commune'   => $item[5],
+                    'programme'             => $item[6],
+                    'annee'                 => $item[7],
+                ]
+            );
+           /*  BeneficiaireProgrammes::create(
+                [
+                    'structure'             => $item[0],
+                    'axe'                   => $item[1],
+                    'nomprenoms'            => $item[2],
+                    'datenaissance'         => @Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject((int)$item[3] ?? ''))->format('Y-m-d'),
+                    'region'                => $item[4],
+                    'sousprefect_commune'   => $item[5],
+                    'programme'             => $item[6],
+                    'annee'                 => $item[7],
+                ]
+            ); */
+
+          // if(!$beneficiairepns){
+           // @Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject((int)$row[3] ?? ''))->format('Y-m-d');
+                  /* BeneficiairePns::create([
+                    'region'                => @$item[1] ?? '',
+                   // 'departement'           => @$item[2] ?? '',
+                    'sousprefect_commune'   => @$item[2] ?? '',
+                    //'quartier_village'      => @$item[4] ?? '',
+                    'nomprenoms'            => $nom ?? '',
+                    'datenaissance'         => @Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject((int)$item[6] ?? ''))->format('Y-m-d'),
+                    'secteuractivite'       => '',
+                    //'sexe'                  => @$item[8] ?? '',
+                    'programme'             => @$item[3] ?? '',
+                    //'numeropiece'           => @$item[5] ?? '',
+                    'intituleformation'     => ''
+                ]); */
+
+                $count = $count + 1;
+          //  }
+        }
+
+        dd($count);
+
         return back();
     }
 
@@ -67,7 +148,6 @@ class AdministrateurController extends Controller
         Excel::import(new UsersImport,request()->file('file'));
 
         //dd();
-
         $data = Excel::toArray(new CommuneImport,request()->file('file'));
 
         foreach ($data[0] as $item) {

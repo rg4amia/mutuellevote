@@ -20,5 +20,7 @@ class BeneficiaireProgrammes extends Model
         'nomprenoms',
         'datenaissance',
         'annee',
+        'axe',
+        'structure',
     ];
 }
