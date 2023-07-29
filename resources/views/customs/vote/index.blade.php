@@ -25,19 +25,20 @@
                         <h1 class="mb-4 text-2xl text-center font-semibold text-gray-700 dark:text-gray-200">
                             Obtenez un code ici.
                         </h1>
-                        <p class="text-xl text-center text-orange-500">Entrez votre email et votre telephone pour obtenir</p>
+                        {{-- <p class="text-xl text-center text-orange-500">Entrez votre email et votre telephone pour obtenir</p> --}}
+                        <p class="text-xl text-center text-orange-500">Entrez votre numéro WhatsApp</p>
                         <hr class="my-8" />
                         @include('layouts.inc.flash')
                         <form  method="POST" class="theme-form" action="{{ route('session.generatecode') }}">
                             @csrf()
-                            <label class="block text-sm">
+                          {{--   <label class="block text-sm">
                                 <span class="text-gray-700 dark:text-gray-400">Email</span>
                                 <input required="" name="email"
                                     class="appearance-none block w-full bg-grey-lighter text-grey-darker border
                                     @error('email') border-red-600 @enderror  rounded py-3 px-4 mb-2"
                                     placeholder="Jane Doe"
                                 />
-                            </label>
+                            </label> --}}
                             <label class="block mt-4 text-sm">
                                 <span class="text-gray-700 dark:text-gray-400">Telephone</span>
                                 <input name="telephone"

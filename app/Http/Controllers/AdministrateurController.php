@@ -18,6 +18,7 @@ use App\Models\GuichetEmploi;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 
 class AdministrateurController extends Controller
@@ -83,21 +84,28 @@ class AdministrateurController extends Controller
         */
 
         $count = 0;
+        //dd($data[0]);
         foreach ($data[0] as $item) {
             //$nom = $item[0].' '.$item[1];
 
-             $nom = $item[5];
-            $beneficiairepns = BeneficiairePns::where('nomprenoms','like',"%$nom%")->first();
+            // $nom = $item[5];
+            //$beneficiairepns = BeneficiairePns::where('nomprenoms','like',"%$nom%")->first();
+            $region = "";
+            $commune = DB::table('digit_parametrage_commune')->where('nom', 'like', "%$item[2]%")->first();
+            if($commune) {
+                $region = DB::table('digit_parametrage_region')->where('id', $commune->region_id)->first();
+            }
+
             BeneficiaireProgrammes::create(
                 [
                     'structure'             => 'AEJ',
-                    'axe'                   => $item[1],
-                    'nomprenoms'            => $item[2],
-                    'datenaissance'         => @Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject((int)$item[3] ?? ''))->format('Y-m-d'),
-                    'region'                => $item[4],
-                    'sousprefect_commune'   => $item[5],
-                    'programme'             => $item[6],
-                    'annee'                 => $item[7],
+                    'axe'                   => 'STAGE',
+                    'nomprenoms'            => $item[0] .' '. $item[1],
+                    'datenaissance'         => null,
+                    'region'                => @$region->nom,
+                    'sousprefect_commune'   => $item[2],
+                    'programme'             => $item[4],
+                    'annee'                 => 2023,
                 ]
             );
            /*  BeneficiaireProgrammes::create(

@@ -135,7 +135,7 @@ class SessionController extends Controller
         ];
 
         $data_src = [
-            'email' => 'required|string',
+            //'email' => 'required|string',
             'telephone' => 'required|string',
         ];
 
@@ -145,21 +145,19 @@ class SessionController extends Controller
             throw new ValidationException($validator);
         }
 
-        $user = User::where(['email' => request(['email']), 'telephone' => request(['telephone']) ])->first();
+        $user = User::whereTelephone(request('telephone'))->first();
 
         if(!$user){
             session()->flash('warning','Aucun compte ne correspond à cet utilisateur. Veuillez contacter l\'administrateur');
             return back();
         } else {
 
-            $user1 =  User::where('email',request(['email']))
-                ->where('telephone',request(['telephone']))->first();
+            $userCode = User::whereTelephone(request('telephone'))->first();
                 /*->orWhere('status', 1)
                 ->orWhere('status_com', 0)
                 where('codegene',null)
                 */
-
-            if ($user1->codegene != null || $user1->status == 1 ||  $user1->status_com == 1) {
+            if (($userCode->codegene != null && $userCode->status == 1) || ($userCode->codegene != null && $userCode->status_com == 1)) {
                 session()->flash('warning','Code deja disponible,deja vote');
                 return back();
             }
@@ -179,9 +177,8 @@ class SessionController extends Controller
             session()->put('user_data',$user);
 
             $telephone = '225'.$user->telephone;
-            $messages = 'Bonjour '. $user->name.' CODE : '. $user->codegene.' LIEN :'. route('session.showverifcode');
-
-            $response = $this->leSMS($telephone,$messages);
+            //$messages = 'Bonjour '. $user->name.' CODE : '. $user->codegene.' LIEN :'. route('session.showverifcode');
+           //$response = $this->leSMS($telephone,$messages);
 
             session()->flash('success','Code généré avec succès.');
             return redirect()->route('session.showverifcode');
