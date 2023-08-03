@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Mail\EmailGenerationCode;
 use App\Models\User;
+use App\Services\WhatsappService;
+use Carbon\Carbon;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -13,14 +15,18 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Str;
 use Pnlinh\InfobipSms\Facades\InfobipSms;
+use Twilio\Rest\Client;
 
 class SessionController extends Controller
 {
     use ThrottlesLogins;
 
-    public function __construct()
+    protected $whatsapp;
+
+    public function __construct(WhatsappService $whatsapp)
     {
         $this->middleware('guest', ['except' => 'destroy']);
+        $this->whatsapp = $whatsapp;
     }
 
     public function sms(){
@@ -176,7 +182,34 @@ class SessionController extends Controller
 
             session()->put('user_data',$user);
 
-            $telephone = '225'.$user->telephone;
+            $telephone = '+225'.$user->telephone;
+
+            $messages = 'Bonjour ' . $user->name . ' CODE : ' . $user->codegene . ' LIEN :' . route('session.showverifcode');
+            $now = Carbon::now();
+
+            /* $twilio = new Client(config('services.twilio.sid'), config('services.twilio.token'));
+
+            $response = $twilio->messages->create('whatsapp:' . $telephone, [
+                "from" => 'whatsapp:' . config('services.twilio.whatsapp_from'),
+                "body" => $messages
+            ]); */
+
+            $client = new \GuzzleHttp\Client();
+
+            $response = $client->post('https://api.twilio.com/2010-04-01/Accounts/ACf968e4751cad4550ed31347983f0ad53/Messages.json', [
+                'auth' => ['ACf968e4751cad4550ed31347983f0ad53', config('services.twilio.token')],
+                'form_params' => [
+                    'To' => 'whatsapp:'. $telephone,
+                    'From' => 'whatsapp:'. config('services.twilio.whatsapp_from'),
+                    'Body' => $messages
+                ]
+            ]);
+
+            $responseBody = $response->getBody()->getContents();
+
+            \Log::info($responseBody);
+            //$this->whatsapp->sendMessage($telephone, $messages);
+
             //$messages = 'Bonjour '. $user->name.' CODE : '. $user->codegene.' LIEN :'. route('session.showverifcode');
            //$response = $this->leSMS($telephone,$messages);
 
