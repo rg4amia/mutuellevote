@@ -7,6 +7,7 @@ use App\Mail\EmailGenerationCode;
 use App\Models\User;
 use App\Services\WhatsappService;
 use Carbon\Carbon;
+use GuzzleHttp\Client;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -15,7 +16,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Str;
 use Pnlinh\InfobipSms\Facades\InfobipSms;
-use Twilio\Rest\Client;
+//use Twilio\Rest\Client;
 
 class SessionController extends Controller
 {
@@ -37,7 +38,7 @@ class SessionController extends Controller
         //$response = InfobipSms::send('00225'.$user->telephone, 'Bonjour '. $user->name.' CODE : '. $user->codegene.' LIEN :'. route('session.showverifcode'));
         //Mail::to($user->email)->send(new EmailGenerationCode($user));
        // $response = $this->SendAroliSms($telephone,$messages);
-       // $response = $this->smsLetexto($telephone,$messages);
+       $response = $this->smsLetexto($telephone,$messages);
         //$response = $this->smsNew($telephone,$messages);
         $response = $this->leSMS($telephone,$messages);
         //$response = InfobipSms::send($telephone, 'Bonjour DIALLO CODE : RGU8899 LIEN :'. route('session.showverifcode'));
@@ -187,6 +188,9 @@ class SessionController extends Controller
             $messages = 'Bonjour ' . $user->name . ' CODE : ' . $user->codegene . ' LIEN :' . route('session.showverifcode');
             $now = Carbon::now();
 
+            //$this->smsLetexto($telephone,$messages);
+            // token = a2e68ff4cd0bf0bf1ca2937632c7fb
+
             /* $twilio = new Client(config('services.twilio.sid'), config('services.twilio.token'));
 
             $response = $twilio->messages->create('whatsapp:' . $telephone, [
@@ -194,7 +198,7 @@ class SessionController extends Controller
                 "body" => $messages
             ]); */
 
-            $client = new \GuzzleHttp\Client();
+            /* $client = new \GuzzleHttp\Client();
 
             $response = $client->post('https://api.twilio.com/2010-04-01/Accounts/ACf968e4751cad4550ed31347983f0ad53/Messages.json', [
                 'auth' => ['ACf968e4751cad4550ed31347983f0ad53', config('services.twilio.token')],
@@ -207,7 +211,7 @@ class SessionController extends Controller
 
             $responseBody = $response->getBody()->getContents();
 
-            \Log::info($responseBody);
+            \Log::info($responseBody); */
             //$this->whatsapp->sendMessage($telephone, $messages);
 
             //$messages = 'Bonjour '. $user->name.' CODE : '. $user->codegene.' LIEN :'. route('session.showverifcode');
@@ -221,9 +225,21 @@ class SessionController extends Controller
 
     public function showverifcode(){
        $user = session()->get('user_data');
-       //return $user ? view('customs.vote.verifcode') : view('customs.vote.index');
-        return view('customs.vote.verifcode');
+       return $user ? view('customs.vote.verifcode') :
+            view('customs.vote.index');
+        //return view('customs.vote.verifcode');
        // return view('voting.verifcode');
+    }
+
+    public function regenerateCode(){
+        $user = session()->get('user_data');
+
+        sleep(4);
+
+        $code_generate = random_int(1000, 9999);
+        $user->codegene = $code_generate;
+        $user->save();
+        return response()->json($user);
     }
 
     public function verifcode(Request $request){
@@ -311,31 +327,62 @@ class SessionController extends Controller
     }
 
     public function  smsLetexto($telephone,$message){
+
+        $tel = '225' . $telephone;
+        $senderId = "MUDTS";
+
+        $client = new Client();
+
+        $response = $client->post('https://api.letexto.com/v1/campaigns', [
+            'headers' => [
+                'Authorization' => 'Bearer ' . config('services.letexto.token'),
+                'Content-Type' => 'application/json'
+            ],
+            'json' => [
+                'step' => null,
+                'sender' => $senderId,
+                'name' => 'Campagne MDS',
+                'campaignType' => 'SIMPLE',
+                'recipientSource' => 'CUSTOM',
+                'groupId' => null,
+                'filename' => null,
+                'saveAsModel' => false,
+                'destination' => 'NAT',
+                'message' => $message,
+                'emailText' => null,
+                'recipients' => [['phone' => $tel]],
+                'sendAt' => [],
+                'dlrUrl' => '',
+                'responseUrl' => '',
+            ]
+        ]);
+
+        dd($response);
+
+        /* $tel = '225' . $telephone;
+
+
         $curl = curl_init();
-        $datas= [
-            'step' => NULL,
-            'sender' => 'MA-AEJ',
-            'name' => 'test',
-            'campaignType' => 'SIMPLE',
-            'recipientSource' => 'CUSTOM',
-            'groupId' => NULL,
-            'filename' => NULL,
-            'saveAsModel' => false,
-            'destination' => 'NAT_INTER',
-            'message' => $message,
-            'emailText' => NULL,
-            'recipients' =>
-                [
-                    [
-                        'phone' => $telephone,
-                    ],
-                ],
-            'sendAt' => [],
-            'dlrUrl' => 'http://dlr.my.domain.com',
-            'responseUrl' => 'http://res.my.domain.com',
+        $datas = [
+            'step'              => NULL,
+            'sender'            => "MUDTS",
+            'name'              => 'Campagne MDS',
+            'campaignType'      => 'SIMPLE',
+            'recipientSource'   => 'CUSTOM',
+            'groupId'           => NULL,
+            'filename'          => NULL,
+            'saveAsModel'       => false,
+            'destination'       => 'NAT',
+            'message'           => $message,
+            'emailText'         => NULL,
+            'recipients'        => [['phone' => $tel,],],
+            'sendAt'            => [],
+            'dlrUrl'            => '',
+            'responseUrl'       => '',
         ];
+
         curl_setopt_array($curl, array(
-            CURLOPT_URL => 'http://api.letexto.com/v1/campaigns',
+            CURLOPT_URL => 'https://api.letexto.com/v1/campaigns',
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -343,16 +390,18 @@ class SessionController extends Controller
             CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => 'POST',
-            CURLOPT_POSTFIELDS =>json_encode($datas),
+            CURLOPT_POSTFIELDS => json_encode($datas),
             CURLOPT_HTTPHEADER => array(
-                'Authorization: Bearer tknHtdqysZYuKsG58VtP1z80C2tsi6',
+                'Authorization: Bearer (monToken)',
                 'Content-Type: application/json'
             ),
         ));
 
         $response = curl_exec($curl);
         curl_close($curl);
-        return json_decode($response);
+        $data = json_decode($response);
+
+        return $data->id; */
     }
 
     public static function SendAroliSms($phone,$message)

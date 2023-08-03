@@ -1,4 +1,53 @@
 @extends('customs.admin.layouts.main')
+
+@section('style')
+<style>
+    .loading {
+        position: relative;
+    }
+
+    .loading::after {
+        content: '';
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        top: 50%;
+        left: 50%;
+        margin: -10px 0 0 -10px;
+        border-radius: 50%;
+        border: 2px solid #ccc;
+        border-top-color: #333;
+        animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+        to {transform: rotate(360deg);}
+    }
+
+    .loading::before {
+        content: 'Chargement...';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+    /* .loading {
+        position: relative;
+    }
+
+    .loading::after {
+        content: 'Chargement...';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    } */
+</style>
+@endsection
 @section('content')
     <div class="flex items-center min-h-screen p-6 bg-gray-50 dark:bg-gray-900">
         <div
@@ -44,10 +93,45 @@
                                 Verifier
                             </button>
                         </form>
+                        {{-- <button type="button" id="regenerate_sms"
+                            class="block w-full px-4 py-2 mt-4 text-sm font-medium leading-5 text-center text-white transition-colors
+                                   duration-150 bg-green-600 border border-transparent rounded-lg active:bg-green-600 hover:bg-green-700
+                                focus:outline-none focus:shadow-outline-purple">
+                           J'ai pas recu de SMS / Régenerer le code
+                        </button> --}}
+                        <button id="regenerate_sms"
+                        class="block w-full px-4 py-2 mt-4 text-sm font-medium leading-5 text-center text-white transition-colors
+                                   duration-150 bg-green-600 border border-transparent rounded-lg active:bg-green-600 hover:bg-green-700
+                                focus:outline-none focus:shadow-outline-purple">
+                            J'ai pas recu de SMS / Régenerer le code
+                        </button>
                     </div>
                 </div>
 
             </div>
         </div>
     </div>
+@endsection
+@section('script')
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+        // Référence au bouton
+        const $button = $('#regenerate_sms');
+        // Requête AJAX au clic
+        $button.on('click', function() {
+
+            var url = "{{ route('session.regeneratecode') }}";
+            $button.html("  ");
+            $button.addClass('loading');
+            axios.post(url).then(response => {
+               // isLoading = false;
+                $button.removeClass('loading');
+                $button.html("J'ai pas recu de SMS / Régenerer le code")
+            }).catch(error => {
+                //isLoading = false;
+                $button.removeClass('loading');
+                $button.html("J'ai pas recu de SMS / Régenerer le code")
+            })
+        });
+    </script>
 @endsection

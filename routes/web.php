@@ -30,6 +30,7 @@ Route::post('/login', [SessionController::class , 'login'])->name('session.login
 Route::post('/generatecode', [SessionController::class , 'generatecode'])->name('session.generatecode');
 Route::get('/showverifcode', [SessionController::class , 'showverifcode'])->name('session.showverifcode');
 Route::post('/verifcode', [SessionController::class , 'verifcode'])->name('session.verifcode');
+Route::post('/regenerate/code', [SessionController::class , 'regenerateCode'])->name('session.regeneratecode');
 Route::get('/sms', [SessionController::class , 'sms'])->name('sms');
 
 Route::get('/resultat', function () {

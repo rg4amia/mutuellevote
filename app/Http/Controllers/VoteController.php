@@ -98,6 +98,8 @@ class VoteController extends Controller
 
     public function fullCommissaire(Request $request){
 
+       // dd($request->all());
+
         /*"vote_commissaire" => "1"
         "vote_commissaire_adjoint" => "1"*/
 
@@ -128,7 +130,8 @@ class VoteController extends Controller
                         $candidat->save();
                     }
 
-                } else{
+                } else {
+
                     $user->status_com = true;
                     $votecondidat = new UserCandidatComissaireCompte();
                     $votecondidat->userId = $user->id;
@@ -155,7 +158,7 @@ class VoteController extends Controller
                         $candidat->save();
                     }
 
-                }else {
+                } else {
                     $user->status = true;
                     $votecondidat_adj = new UserCandidatPresidentielle();
                     $votecondidat_adj->userId = $user->id;
@@ -223,7 +226,7 @@ class VoteController extends Controller
         if($user){
             $nom_commissaire = session()->get('nom_commissaire');
             $nom_commissaire_adjoint = session()->get('nom_commissaire_adjoint');
-            session()->flash('success',"Felicitation !!!, vous avez bien vote le commissaire au compte $nom_commissaire le commissaire au compte adjoint $nom_commissaire_adjoint...");
+            session()->flash('success',"Felicitation !!!, vous avez bien vote le président $nom_commissaire_adjoint... et le commissaire au compte $nom_commissaire");
             return view('customs.vote.felicitaion');
         }
 
@@ -247,6 +250,7 @@ class VoteController extends Controller
     public function votrechoix(){
 
         $code = session()->get('code');
+
         if (!$code) {
             session()->flash('warning',"Cet accès n'est pas autorisé. Veuillez remplir les informations c-dessous !!!");
             return view('customs.vote.index');
