@@ -27,7 +27,7 @@
                             Obtenez un code ici.
                         </h1>
                         {{-- <p class="text-xl text-center text-orange-500">Entrez votre email et votre telephone pour obtenir</p> --}}
-                        <p class="text-xl text-center text-orange-500">Entrez votre numéro WhatsApp</p>
+                        <p class="text-xl text-center text-orange-500">Entrez votre contact</p>
                         <hr class="my-8" />
                         @include('layouts.inc.flash')
                         <form  method="POST" class="theme-form" action="{{ route('session.generatecode') }}">
