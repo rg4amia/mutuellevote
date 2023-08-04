@@ -30,7 +30,7 @@
                                border-transparent rounded-lg active:bg-purple-600
                                hover:bg-sky-700 focus:outline-none
                                focus:shadow-outline-purple">
-                                PASSER AUX VOTES DE LA PRÉSIDENCE ET DU COMMISSARIAT AUX COMPTES MUDTS
+                                PASSER AUX VOTES DE LA PRÉSIDENCE ET DU COMMISSARIAT AUX COMPTES DE LA MUDTS
                             </a>
                         </div>
                     </div>

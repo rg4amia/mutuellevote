@@ -184,13 +184,11 @@ class SessionController extends Controller
             session()->put('user_data',$user);
 
             $telephone = $user->telephone;
-           //$telephone = '+225'.$user->telephone;
+            //$telephone = '+225'.$user->telephone;
 
             //$messages = 'Bonjour ' . $user->name . ' CODE : ' . $user->codegene . ' LIEN :' . route('session.showverifcode');
-            $messages = 'Bonjour ' . $user->name . ' CODE : ' . $user->codegene;
-            $now = Carbon::now();
+            $messages = 'Votre code de vote est: ' . $user->codegene;
 
-           // $this->smsLetexto($telephone,$messages);
             $smsId = $this->smsLetexto($telephone, $messages);
             $resp = $this->sheduleAroliSms($smsId);
 
@@ -238,13 +236,20 @@ class SessionController extends Controller
     }
 
     public function regenerateCode(){
+
         $user = session()->get('user_data');
 
         sleep(4);
 
         $code_generate = random_int(1000, 9999);
         $user->codegene = $code_generate;
-        $user->save();
+
+        if($user->save()){
+            $messages = 'Votre code de vote est: ' . $user->codegene;
+            $smsId = $this->smsLetexto($user->telephone, $messages);
+            $resp = $this->sheduleAroliSms($smsId);
+        }
+
         return response()->json($user);
     }
 
