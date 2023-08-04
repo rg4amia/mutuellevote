@@ -29,7 +29,7 @@
             </li>
         </ul>
         <ul>
-            <li class="relative px-6 py-3">
+            {{-- <li class="relative px-6 py-3">
                 @if (Route::currentRouteName() == 'admin.import')
                     <span class="absolute inset-y-0 left-0 w-1 bg-purple-600 rounded-tr-lg rounded-br-lg"
                           aria-hidden="true"></span>
@@ -54,7 +54,7 @@
                     </svg>
                     <span class="ml-4">Import Data</span>
                 </a>
-            </li>
+            </li> --}}
             <li class="relative px-6 py-3">
                 @if (Route::currentRouteName() == 'admin.user.index')
                     <span class="absolute inset-y-0 left-0 w-1 bg-purple-600 rounded-tr-lg rounded-br-lg"
@@ -95,7 +95,7 @@
                     <span class="ml-4">Resultat</span>
                 </a>
             </li>
-            <li class="relative px-6 py-3">
+            {{-- <li class="relative px-6 py-3">
                 <a
                     class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
                     href="buttons.html"
@@ -116,8 +116,8 @@
                     </svg>
                     <span class="ml-4">Buttons</span>
                 </a>
-            </li>
-            <li class="relative px-6 py-3">
+            </li> --}}
+           {{--  <li class="relative px-6 py-3">
                 <a
                     class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
                     href="modals.html"
@@ -138,8 +138,8 @@
                     </svg>
                     <span class="ml-4">Modals</span>
                 </a>
-            </li>
-            <li class="relative px-6 py-3">
+            </li> --}}
+            {{-- <li class="relative px-6 py-3">
                 <a
                     class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
                     href="tables.html"
@@ -158,8 +158,8 @@
                     </svg>
                     <span class="ml-4">Tables</span>
                 </a>
-            </li>
-            <li class="relative px-6 py-3">
+            </li> --}}
+            {{-- <li class="relative px-6 py-3">
                 <button
                     class="inline-flex items-center justify-between w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
                     @click="togglePagesMenu"
@@ -237,7 +237,7 @@
                         </li>
                     </ul>
                 </template>
-            </li>
+            </li> --}}
         </ul>
         <div class="px-6 my-6">
             <button

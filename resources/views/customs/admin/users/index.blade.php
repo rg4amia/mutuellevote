@@ -83,7 +83,7 @@
                     <thead>
                     <tr class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
                         <th class="px-4 py-3">Nom & Prenom</th>
-                        <th class="px-4 py-3">Matricule</th>
+                       {{--  <th class="px-4 py-3">Matricule</th> --}}
                         <th class="px-4 py-3">Email</th>
                         <th class="px-4 py-3">Telephone</th>
                         <th class="px-4 py-3">Code Generer</th>
@@ -103,13 +103,13 @@
                                     <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true"></div>
                                 </div>
                                 <div>
-                                    <p class="font-semibold">{{ $user->nomprenom }}</p>
+                                    <p class="font-semibold">{{ $user->nomprenom ? $user->nomprenom : $user->name }}</p>
                                 </div>
                             </div>
                         </td>
-                        <td class="px-4 py-3 text-sm">
+                       {{--  <td class="px-4 py-3 text-sm">
                             <p class="font-semibold">{{ $user->matricule }}</p>
-                        </td>
+                        </td> --}}
                         <td class="px-4 py-3 text-xs">
                             @if($user->email)
                                 <span class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
@@ -148,7 +148,7 @@
 
                         </td>
                             <td class="px-4 py-3 text-sm">
-                                @if($user->status != 1 ||$user->status != 1  )
+                                @if($user->status != 1 || $user->status != 1  )
                                     <span class="px-2 py-1 font-semibold leading-tight text-orange-700 bg-orange-100 rounded-full dark:text-white dark:bg-orange-600">
                                       {{ __('Pas encore vote') }}
                                 </span>
