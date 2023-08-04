@@ -36,13 +36,13 @@
 <!-- login page start-->
 <div class="container-fluid">
     <div class="row">
-        <div class="col-xl-5"><img class="bg-img-cover bg-center" src="{{ asset('assets/images/maaej.jpeg') }}" alt="looginpage"></div>
+        <div class="col-xl-5"><img class="bg-img-cover bg-center" src="{{ asset('images/mudts.png') }}" alt="looginpage"></div>
         <div class="col-xl-7 p-0">
             <div class="login-card">
                 <div>
                     <div><a class="logo text-start" href="index.html">
-                            <img class="for-light" src="{{ asset('assets/images/maaej.jpeg') }}" height="100" alt="looginpage">
-                            <img class="for-dark" src="{{ asset('assets/images/maaej.jpeg') }}" height="100" alt="looginpage"></a></div>
+                            <img class="for-light" src="{{ asset('images/mudts.png') }}" height="100" alt="looginpage">
+                            <img class="for-dark" src="{{ asset('images/mudts.png') }}" height="100" alt="looginpage"></a></div>
                     <div class="login-main">
 
                         <form  method="POST" class="theme-form" action="{{ route('session.verifcode') }}">

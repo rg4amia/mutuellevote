@@ -6,19 +6,18 @@
         >
             <div class="flex flex-col overflow-y-auto md:flex-row">
                 <div class="h-32 md:h-auto md:w-1/2">
-                    <h1>MUDTS</h1>
-                   {{--  <img
+                   <img
                         aria-hidden="true"
                         class="object-cover w-full h-full dark:hidden"
-                        src="{{ asset('assets/images/maaej.jpeg') }}"
+                        src="{{ asset('images/mudts.png') }}"
                         alt="Office"
                     />
                     <img
                         aria-hidden="true"
                         class="hidden object-cover w-full h-full dark:block"
-                        src="{{ asset('assets/images/maaej.jpeg') }}"
+                        src="{{ asset('images/mudts.png') }}"
                         alt="Office"
-                    /> --}}
+                    />
                 </div>
 
                     <div class="flex items-center justify-center p-6 sm:p-12 md:w-1/2">

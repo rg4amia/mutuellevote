@@ -41,8 +41,8 @@
             <div class="login-card">
                 <div>
                     <div><a class="logo text-start" href="#">
-                            <img class="for-light" src="{{ asset('assets/images/maaej.jpeg') }}" height="200" alt="looginpage">
-                            <img class="for-dark" src="{{ asset('assets/images/maaej.jpeg') }}" height="200" alt="looginpage"></a></div>
+                            <img class="for-light" src="{{ asset('images/mudts.png') }}" height="200" alt="looginpage">
+                            <img class="for-dark" src="{{ asset('images/mudts.png') }}" height="200" alt="looginpage"></a></div>
                     <div class="login-main">
 
                             <form method="POST" class="theme-form" action="{{ route('session.login') }}">

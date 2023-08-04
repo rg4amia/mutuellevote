@@ -12,7 +12,7 @@
             </div>
         </form>
         <div class="header-logo-wrapper col-auto p-0">
-            <div class="logo-wrapper"><a href="index.html"><img class="img-fluid" src="{{ asset('assets/images/maaej.jpeg') }}" alt=""></a></div>
+            <div class="logo-wrapper"><a href="index.html"><img class="img-fluid" src="{{ asset('images/mudts.png') }}" alt=""></a></div>
             <div class="toggle-sidebar"><i class="status_toggle middle sidebar-toggle" data-feather="align-center"></i></div>
         </div>
         <div class="left-header col horizontal-wrapper ps-0">

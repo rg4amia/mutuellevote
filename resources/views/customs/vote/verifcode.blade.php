@@ -58,13 +58,13 @@
                   {{--   <img
                         aria-hidden="true"
                         class="object-cover w-full h-full dark:hidden"
-                        src="{{ asset('assets/images/maaej.jpeg') }}"
+                        src="{{ asset('images/mudts.png') }}"
                         alt="Office"
                     />
                     <img
                         aria-hidden="true"
                         class="hidden object-cover w-full h-full dark:block"
-                        src="{{ asset('assets/images/maaej.jpeg') }}"
+                        src="{{ asset('images/mudts.png') }}"
                         alt="Office"
                     /> --}}
                 </div>

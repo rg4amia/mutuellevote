@@ -40,8 +40,8 @@
         <div class="col-xl-7 p-0">
             <div class="login-card">
                 <div>
-                    <div><a class="logo text-start" href="index.html"><img class="img-fluid for-light" src="{{ asset('assets/images/maaej.jpeg') }}" alt="looginpage">
-                            <img class="img-fluid for-dark" src="{{ asset('assets/images/maaej.jpeg') }}" alt="looginpage"></a></div>
+                    <div><a class="logo text-start" href="index.html"><img class="img-fluid for-light" src="{{ asset('images/mudts.png') }}" alt="looginpage">
+                            <img class="img-fluid for-dark" src="{{ asset('images/mudts.png') }}" alt="looginpage"></a></div>
                     <div class="login-main">
                         <form class="theme-form">
                             <h4>Se connecter au compte</h4>
