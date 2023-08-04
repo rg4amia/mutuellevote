@@ -35,7 +35,7 @@ return [
         'token' => env('TWILIO_AUTH_TOKEN'),
         'whatsapp_from' => env('TWILIO_WHATSAPP_FROM')
     ],
-    
+
     'letexto' => [
         'token' => 'a2e68ff4cd0bf0bf1ca2937632c7fb'
     ]

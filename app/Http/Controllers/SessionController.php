@@ -183,12 +183,18 @@ class SessionController extends Controller
 
             session()->put('user_data',$user);
 
-            $telephone = '+225'.$user->telephone;
+            $telephone = $user->telephone;
+           //$telephone = '+225'.$user->telephone;
 
-            $messages = 'Bonjour ' . $user->name . ' CODE : ' . $user->codegene . ' LIEN :' . route('session.showverifcode');
+            //$messages = 'Bonjour ' . $user->name . ' CODE : ' . $user->codegene . ' LIEN :' . route('session.showverifcode');
+            $messages = 'Bonjour ' . $user->name . ' CODE : ' . $user->codegene;
             $now = Carbon::now();
 
-            //$this->smsLetexto($telephone,$messages);
+           // $this->smsLetexto($telephone,$messages);
+            $smsId = $this->smsLetexto($telephone, $messages);
+            $resp = $this->sheduleAroliSms($smsId);
+
+            //dd($resp);
             // token = a2e68ff4cd0bf0bf1ca2937632c7fb
 
             /* $twilio = new Client(config('services.twilio.sid'), config('services.twilio.token'));
@@ -326,43 +332,12 @@ class SessionController extends Controller
         return Auth::guard();
     }
 
-    public function  smsLetexto($telephone,$message){
-
-        $tel = '225' . $telephone;
-        $senderId = "MUDTS";
-
-        $client = new Client();
-
-        $response = $client->post('https://api.letexto.com/v1/campaigns', [
-            'headers' => [
-                'Authorization' => 'Bearer ' . config('services.letexto.token'),
-                'Content-Type' => 'application/json'
-            ],
-            'json' => [
-                'step' => null,
-                'sender' => $senderId,
-                'name' => 'Campagne MDS',
-                'campaignType' => 'SIMPLE',
-                'recipientSource' => 'CUSTOM',
-                'groupId' => null,
-                'filename' => null,
-                'saveAsModel' => false,
-                'destination' => 'NAT',
-                'message' => $message,
-                'emailText' => null,
-                'recipients' => [['phone' => $tel]],
-                'sendAt' => [],
-                'dlrUrl' => '',
-                'responseUrl' => '',
-            ]
-        ]);
-
-        dd($response);
-
-        /* $tel = '225' . $telephone;
-
+    public function smsLetexto($telephone,$message){
+        //dd($telephone);
+        $tel = '225'. $telephone;
 
         $curl = curl_init();
+
         $datas = [
             'step'              => NULL,
             'sender'            => "MUDTS",
@@ -392,7 +367,7 @@ class SessionController extends Controller
             CURLOPT_CUSTOMREQUEST => 'POST',
             CURLOPT_POSTFIELDS => json_encode($datas),
             CURLOPT_HTTPHEADER => array(
-                'Authorization: Bearer (monToken)',
+                'Authorization: Bearer a2e68ff4cd0bf0bf1ca2937632c7fb',
                 'Content-Type: application/json'
             ),
         ));
@@ -400,9 +375,59 @@ class SessionController extends Controller
         $response = curl_exec($curl);
         curl_close($curl);
         $data = json_decode($response);
-
-        return $data->id; */
+        return  $data->id;
     }
+
+    public function sheduleAroliSms($id){
+
+            $curl = curl_init();
+            curl_setopt_array($curl, array(
+                CURLOPT_URL => "https://api.letexto.com/v1/campaigns/".$id."/schedules",
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => '',
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 0,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => 'POST',
+                CURLOPT_HTTPHEADER => array(
+                    'Authorization: Bearer a2e68ff4cd0bf0bf1ca2937632c7fb',
+                    'Content-Type: application/json'
+                ),
+            ));
+
+            $status_code = -1;
+
+            $response = curl_exec($curl);
+            $err = curl_error($curl);
+            curl_close($curl);
+            if($err) {
+                $status_code = null;
+                $message_id = null;
+                $error_code = null;
+                $state = 0;
+            }
+            else {
+
+                $data = json_decode($response);
+                $message = $data->message;//dd($data);
+
+                if($message != "") {
+                $message_id = $id;
+                $error_code = -1;
+                $state = 1;
+                }
+                else {
+                $message_id = -1;
+                $error_code = $data->error;
+                $state = -1;
+                }
+            }
+
+        return [$state,$status_code,$message_id,$error_code,$gateWay="AROLIGTW"];
+    }
+
+
 
     public static function SendAroliSms($phone,$message)
     {
