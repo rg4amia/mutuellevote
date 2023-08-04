@@ -226,7 +226,7 @@ class VoteController extends Controller
         if($user){
             $nom_commissaire = session()->get('nom_commissaire');
             $nom_commissaire_adjoint = session()->get('nom_commissaire_adjoint');
-            session()->flash('success',"Felicitation !!!, vous avez bien vote le président $nom_commissaire_adjoint... et le commissaire au compte $nom_commissaire");
+            session()->flash('success',"Félicitations !!! Vous avez bien voté le président $nom_commissaire_adjoint... et le commissaire au compte $nom_commissaire");
             return view('customs.vote.felicitaion');
         }
 
@@ -234,14 +234,14 @@ class VoteController extends Controller
 
         if($user_cadjoint){
             $nom_commissaire_adjoint = session()->get('nom_commissaire_adjoint');
-            session()->flash('success',"Felicitation !!!,Vous avez bien vote le commissaire au compte adjoint $nom_commissaire_adjoint...");
+            session()->flash('success',"Félicitations !!! Vous avez bien voté le président $nom_commissaire_adjoint...");
         }
 
         $user_com = User::where('codegene',$code)->where('status_com',1)->first();
 
         if($user_com){
             $nom_commissaire = session()->get('nom_commissaire');
-            session()->flash('success',"Felicitation !!!,Vous avez bien vote le commissaire au compte $nom_commissaire...");
+            session()->flash('success',"Félicitations !!!,Vous avez bien voté le commissaire au compte $nom_commissaire...");
         }
 
         return view('customs.vote.felicitaion');
