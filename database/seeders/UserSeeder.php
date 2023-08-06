@@ -18,16 +18,16 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        $file = public_path('file_user.xlsx');
+        $file = public_path('file_user_1.xlsx');
         $data = Excel::toArray(new BeneficiairePnsImport, $file);
 
         foreach ($data[0] as $item) {
 
-            $defaultEmail = strtolower(str_replace(' ', '', $item[1])) . '@example.com';
+            $defaultEmail = strtolower(str_replace(' ', '', $item[0])) . '@example.com';
 
             User::create([
                 'name' => strtoupper($item[1]),
-                'telephone' => Str::length($item[3]) == 9 ? '0'.$item[3] : $item[3],
+                'telephone' => Str::length($item[1]) == 9 ? '0'.$item[1] : $item[1],
                 'email' => $defaultEmail,
                 'password' => Hash::make('password')
             ]);

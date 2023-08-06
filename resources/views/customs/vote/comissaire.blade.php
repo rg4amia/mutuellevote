@@ -8,7 +8,7 @@
                 <h2 class="my-6 text-2xl text-center font-semibold text-green-700 dark:text-green-200 bg-green-100">
                     LES CANDIDATS DE LA PRÉSIDENCE DE LA MUDTS
                 </h2>
-                <div class="flex flex-col md:px-40 overflow-y-auto md:flex-row">
+                <div class="flex flex-col md:px-30 overflow-y-auto md:flex-row">
                     @foreach($candidats as $candidat)
                     <div class="flex text-center justify-center sm:p-12">
                         <div class="rounded rounded-t-lg overflow-hidden shadow max-w-xs my-3">
@@ -40,7 +40,7 @@
                 <h2 class="my-6 text-2xl text-center font-semibold text-green-700 dark:text-green-200 bg-green-100">
                     LES CANDIDATS AU COMMISSARIAT AUX COMPTES DE LA MUDTS
                 </h2>
-                <div class="flex flex-col md:px-40 overflow-y-auto md:flex-row">
+                <div class="flex flex-col md:px-30 overflow-y-auto md:flex-row">
                     @foreach($commissaires as $commissaire)
                         <div class="flex text-center justify-center sm:p-12">
                             <div class="rounded rounded-t-lg overflow-hidden shadow max-w-xs my-3">

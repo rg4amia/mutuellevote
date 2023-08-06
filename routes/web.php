@@ -18,13 +18,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
+/* Route::get('/', function () {
     return view('welcome');
-});
+}); */
 
 Auth::routes();
 
-Route::get('/home', [HomeController::class,'index'])->name('home');
+/* Route::get('/home', [HomeController::class,'index'])->name('home');
 Route::get('/', [SessionController::class , 'obtenircode'])->name('obtenircode');
 Route::post('/login', [SessionController::class , 'login'])->name('session.login');
 Route::post('/generatecode', [SessionController::class , 'generatecode'])->name('session.generatecode');
@@ -32,7 +32,7 @@ Route::get('/showverifcode', [SessionController::class , 'showverifcode'])->name
 Route::post('/verifcode', [SessionController::class , 'verifcode'])->name('session.verifcode');
 Route::post('/regenerate/code', [SessionController::class , 'regenerateCode'])->name('session.regeneratecode');
 Route::get('/sms', [SessionController::class , 'sms'])->name('sms');
-
+ */
 Route::get('/resultat', function () {
     $candidats = \App\Models\CandidatPresidentielle::all();
     return view('voting.resultat',compact('candidats'));
